@@ -43,10 +43,11 @@ if (document.getElementById('particles')) {
 }
 
 // Contact form handling
+// Contact form handling
 const contactForm = document.getElementById('contactForm');
 
 if (contactForm) {
-  contactForm.addEventListener('submit', e => {
+  contactForm.addEventListener('submit', async e => {
     e.preventDefault();
 
     const formData = new FormData(contactForm);
@@ -61,13 +62,26 @@ if (contactForm) {
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
     submitBtn.disabled = true;
 
-    setTimeout(() => {
-      alert('Message sent successfully!');
-      contactForm.reset();
+    try {
+      const response = await fetch(contactForm.action, {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (response.ok) {
+        alert('Message sent successfully!');
+        contactForm.reset();
+      } else {
+        alert('Oops! Something went wrong. Please try again.');
+      }
+    } catch (error) {
+      alert('Oops! Something went wrong. Please try again.');
+    } finally {
       submitBtn.innerHTML =
         '<i class="fas fa-paper-plane"></i> Send Message';
       submitBtn.disabled = false;
-    }, 2000);
+    }
   });
 }
 
@@ -108,5 +122,8 @@ if (menuToggle && navLinks) {
       navLinks.classList.remove('active');
       menuToggle.classList.remove('active');
     });
+    // Auto-update footer year
+const yearEl = document.getElementById('currentYear');
+if (yearEl) yearEl.textContent = new Date().getFullYear();
   });
 }

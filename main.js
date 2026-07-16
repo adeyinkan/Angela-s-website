@@ -92,3 +92,21 @@ document
     el.style.transition = '0.6s ease';
     observer.observe(el);
   });
+  // Mobile menu toggle
+const menuToggle = document.getElementById('menuToggle');
+const navLinks = document.getElementById('navLinks');
+
+if (menuToggle && navLinks) {
+  menuToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+    menuToggle.classList.toggle('active');
+  });
+
+  // Close menu when a link is clicked (nice UX on mobile)
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('active');
+      menuToggle.classList.remove('active');
+    });
+  });
+}
